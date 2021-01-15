@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Burger from '../../component/Burger/Burger.js';
-import BurgerControls from '../../component/BurgerControls/BurgerControls.js';
+import BurgerControls from '../../component/Burger/BurgerControls/BurgerControls.js';
+import Modal from '../../component/UI/Modal/Modal.js';
+
+import OrderSummaryModal from '../../component/Burger/OrderSummaryModal/OrderSummaryModal.js';
 
 const INGREDIENT_PRICES = {
   salad: 0.4,
@@ -19,6 +22,11 @@ export class BurgerBuilder extends Component {
     },
     totalPrice: 5.56,
     isPurchasable: false,
+    isOrderSummaryViewable: false,
+  };
+
+  isOrderSummaryHandler = () => {
+    this.setState({ isOrderSummaryViewable: true });
   };
 
   updateIsPurchasable(ingredients) {
@@ -78,7 +86,9 @@ export class BurgerBuilder extends Component {
 
     return (
       <div>
-        Burger Builder component
+        <Modal isShowing={this.state.isOrderSummaryViewable}>
+          <OrderSummaryModal ingredients={this.state.ingredients} />
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BurgerControls
           addIngredientHandlerFn={this.addIngredientHandler}
@@ -86,6 +96,7 @@ export class BurgerBuilder extends Component {
           disabledIngredients={isIngredientDisabled}
           price={this.state.totalPrice}
           isPurchasable={this.state.isPurchasable}
+          isOrdering={this.isOrderSummaryHandler}
         />
       </div>
     );
