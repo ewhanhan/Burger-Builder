@@ -18,7 +18,9 @@ const OrderSummaryModal = (props) => {
       <h3>Your Order!</h3>
       <p>A delicious burger with the following ingredients:</p>
       <ul>{ingredientSummary}</ul>
-      <p>Checkout?</p>
+      <p>
+        Checkout? Your order is: <strong>${props.price.toFixed(2)}</strong>
+      </p>
       <Button
         buttonType="Success"
         isClicked={props.orderSummaryContinueHandler}
