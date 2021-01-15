@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../../UI/Button/Button.js';
 
 const OrderSummaryModal = (props) => {
   const ingredientSummary = Object.keys(props.ingredients).map(
@@ -15,9 +16,18 @@ const OrderSummaryModal = (props) => {
   return (
     <>
       <h3>Your Order!</h3>
-      <p>A decilcious burger with the following ingredients:</p>
+      <p>A delicious burger with the following ingredients:</p>
       <ul>{ingredientSummary}</ul>
       <p>Checkout?</p>
+      <Button
+        buttonType="Success"
+        isClicked={props.orderSummaryContinueHandler}
+      >
+        ORDER
+      </Button>
+      <Button buttonType="Danger" isClicked={props.orderSummaryCancelHandler}>
+        CANCEL
+      </Button>
     </>
   );
 };

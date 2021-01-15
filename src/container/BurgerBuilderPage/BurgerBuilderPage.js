@@ -29,8 +29,12 @@ export class BurgerBuilder extends Component {
     this.setState({ isOrderSummaryViewable: true });
   };
 
-  isOrderSummaryClosedHandler = () => {
+  cancelOrderHandler = () => {
     this.setState({ isOrderSummaryViewable: false });
+  };
+
+  purchaseOrderHandler = () => {
+    alert('You clicked Hello');
   };
 
   updateIsPurchasable(ingredients) {
@@ -92,9 +96,13 @@ export class BurgerBuilder extends Component {
       <div>
         <Modal
           isShowing={this.state.isOrderSummaryViewable}
-          closeOrderSummaryHandler={this.isOrderSummaryClosedHandler}
+          closeOrderSummaryHandler={this.cancelOrderHandler}
         >
-          <OrderSummaryModal ingredients={this.state.ingredients} />
+          <OrderSummaryModal
+            ingredients={this.state.ingredients}
+            orderSummaryContinueHandler={this.purchaseOrderHandler}
+            orderSummaryCancelHandler={this.cancelOrderHandler}
+          />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BurgerControls
