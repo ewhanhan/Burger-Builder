@@ -12,6 +12,9 @@ const INGREDIENT_CONTROLLERS = [
 const BurgerControls = (props) => {
   return (
     <div className={styles.BurgerControls}>
+      <p>
+        Current price: <strong>{props.price.toFixed(2)}</strong>
+      </p>
       {INGREDIENT_CONTROLLERS.map((item, index) => {
         return (
           <BuildControl
