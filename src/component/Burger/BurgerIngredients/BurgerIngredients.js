@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './BurgerIngredients.css';
+import styles from './BurgerIngredients.module.css';
 
 //BurgerIngredient component renders the ingredient image based on the
 //parameter 'type' that is passed
