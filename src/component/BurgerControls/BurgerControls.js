@@ -18,7 +18,10 @@ const BurgerControls = (props) => {
           <BuildControl
             key={item.ingredientName + index}
             ingredientLabel={item.ingredientName}
-            click={() => props.addIngredientHandler(item.type)}
+            addClickHandler={() => props.addIngredientHandlerFn(item.type)}
+            removeClickHandler={() =>
+              props.removeIngredientHandlerFn(item.type)
+            }
           />
         );
       })}

@@ -36,12 +36,40 @@ export class BurgerBuilder extends Component {
     });
   };
 
+  removeIngredientHandler = (type) => {
+    const oldIngredientCount = this.state.ingredients[type];
+    if (oldIngredientCount <= 1) {
+      return;
+    }
+    const updatedCount = oldIngredientCount - 1;
+    const updatedIngredientCount = {
+      ...this.state.ingredients,
+    };
+    updatedIngredientCount[type] = updatedCount;
+    const removedPrice = INGREDIENT_PRICES[type];
+    const oldPrice = this.state.totalPrice;
+    const newPrice = oldPrice - removedPrice;
+    this.setState({
+      totalPrice: newPrice,
+      ingredients: updatedIngredientCount,
+    });
+  };
+
   render() {
+    const disabledInfo = { ...this.state.ingredients };
+
+    for (let key in disabledInfo) {
+      disabledInfo[key] = disabledInfo[key] = 0;
+    }
+
     return (
       <div>
         Burger Builder component
         <Burger ingredients={this.state.ingredients} />
-        <BurgerControls addIngredientHandler={this.addIngredientHandler} />
+        <BurgerControls
+          addIngredientHandlerFn={this.addIngredientHandler}
+          removeIngredientHandlerFn={this.removeIngredientHandler}
+        />
       </div>
     );
   }
