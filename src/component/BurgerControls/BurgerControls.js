@@ -10,6 +10,7 @@ const INGREDIENT_CONTROLLERS = [
 ];
 
 const BurgerControls = (props) => {
+  console.log('Build Controls props', props);
   return (
     <div className={styles.BurgerControls}>
       {INGREDIENT_CONTROLLERS.map((item, index) => {
@@ -17,6 +18,7 @@ const BurgerControls = (props) => {
           <BuildControl
             key={item.ingredientName + index}
             ingredientLabel={item.ingredientName}
+            click={() => props.addIngredientHandler(item.type)}
           />
         );
       })}
