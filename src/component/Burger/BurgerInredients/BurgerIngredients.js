@@ -1,6 +1,9 @@
 import React from 'react';
-import styles from './BurgerIngredients.module.css';
+import PropTypes from 'prop-types';
+import styles from './BurgerIngredients.css';
 
+//BurgerIngredient component renders the ingredient image based on the
+//parameter 'type' that is passed
 const BurgerIngredients = (props) => {
   let ingredient = null;
 
@@ -33,6 +36,11 @@ const BurgerIngredients = (props) => {
       ingredient = null;
   }
   return ingredient;
+};
+
+//propTypes checks the types of props for a component
+BurgerIngredients.propTypes = {
+  type: PropTypes.string.isRequired,
 };
 
 export default BurgerIngredients;
