@@ -29,6 +29,10 @@ export class BurgerBuilder extends Component {
     this.setState({ isOrderSummaryViewable: true });
   };
 
+  isOrderSummaryClosedHandler = () => {
+    this.setState({ isOrderSummaryViewable: false });
+  };
+
   updateIsPurchasable(ingredients) {
     const sumOfIngredients = Object.keys(ingredients)
       .map((ingredient) => {
@@ -86,7 +90,10 @@ export class BurgerBuilder extends Component {
 
     return (
       <div>
-        <Modal isShowing={this.state.isOrderSummaryViewable}>
+        <Modal
+          isShowing={this.state.isOrderSummaryViewable}
+          closeOrderSummaryHandler={this.isOrderSummaryClosedHandler}
+        >
           <OrderSummaryModal ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
