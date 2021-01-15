@@ -10,7 +10,6 @@ const INGREDIENT_CONTROLLERS = [
 ];
 
 const BurgerControls = (props) => {
-  console.log('Build Controls props', props);
   return (
     <div className={styles.BurgerControls}>
       {INGREDIENT_CONTROLLERS.map((item, index) => {
@@ -22,6 +21,7 @@ const BurgerControls = (props) => {
             removeClickHandler={() =>
               props.removeIngredientHandlerFn(item.type)
             }
+            isDisabledIngredient={props.disabledIngredients[item.type]}
           />
         );
       })}
