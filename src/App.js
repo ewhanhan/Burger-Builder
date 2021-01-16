@@ -1,4 +1,4 @@
-import Layout from './component/Layout/Layout.js';
+import Layout from './container/Layout/Layout.js';
 import BurgerBuilderPage from './container/BurgerBuilderPage/BurgerBuilderPage.js';
 
 function App() {
