@@ -26,7 +26,7 @@ export class Layout extends Component {
           isSideDrawerShowing={this.state.isSideDrawerShowing}
           closeSideDrawerClickFn={this.closeSideDrawerHandler}
         />
-        <main className={styles.Content}>{this.props.children}</main>
+        <div className={styles.Content}>{this.props.children}</div>
       </>
     );
   }
