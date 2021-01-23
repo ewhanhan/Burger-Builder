@@ -6,6 +6,7 @@ import OrderSummaryModal from '../../component/Burger/OrderSummaryModal/OrderSum
 import LoadingSpinner from '../../component/UI/LoadingSpinner/LoadingSpinner.js';
 import axiosInstance from '../../axios-orders';
 import ErrorHandler from '../../hoc/ErrorHandler/ErrorHandler.js';
+import Checkout from '../Checkout/Checkout.js';
 
 const INGREDIENT_PRICES = {
   salad: 0.4,
