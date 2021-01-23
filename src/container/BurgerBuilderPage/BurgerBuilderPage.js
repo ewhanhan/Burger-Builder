@@ -19,7 +19,7 @@ export class BurgerBuilder extends Component {
   state = {
     ingredients: null,
     totalPrice: 5.56,
-    isPurchasable: false,
+    isPurchasable: true,
     isOrderSummaryViewable: false,
     isLoading: false,
     onPageError: false,
@@ -47,21 +47,27 @@ export class BurgerBuilder extends Component {
   };
 
   purchaseOrderHandler = () => {
-    this.setState({ isLoading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        payload: 'test',
-      },
-    };
-    axiosInstance
-      .post('/orders.json', order)
-      .then((resp) => {
-        console.log('Status: ', resp.status);
-        this.setState({ isLoading: false });
-      })
-      .catch((err) => console.log(err));
+    // this.setState({ isLoading: true });
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.totalPrice,
+    //   customer: {
+    //     payload: 'test',
+    //   },
+    // };
+    // axiosInstance
+    //   .post('/orders.json', order)
+    //   .then((resp) => {
+    //     console.log('Status: ', resp.status);
+    //     this.setState({ isLoading: false });
+    //   })
+    //   .catch((err) => console.log(err));
+    const queryParams = [];
+    for (let item in this.state.ingredients) {
+      queryParams.push(encodeURIComponent(item) + '=' + encodeURIComponent(this.state.ingredients[item]));
+    }
+    const queryString = queryParams.join('&');
+    this.props.history.push({ pathname: '/checkout', search: '?q=' + queryString });
   };
 
   updateIsPurchasable(ingredients) {
