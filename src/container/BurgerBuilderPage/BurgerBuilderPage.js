@@ -16,17 +16,26 @@ const INGREDIENT_PRICES = {
 
 export class BurgerBuilder extends Component {
   state = {
-    ingredients: {
-      salad: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0,
-    },
+    ingredients: null,
     totalPrice: 5.56,
     isPurchasable: false,
     isOrderSummaryViewable: false,
     isLoading: false,
+    onPageError: false,
   };
+
+  componentDidMount() {
+    this.setState({ isLoading: true });
+    axiosInstance
+      .get('/ingredients.json')
+      .then((resp) => {
+        const firebaseIngredients = { ...resp.data };
+        this.setState({ ingredients: firebaseIngredients, isLoading: false });
+      })
+      .catch((error) => {
+        this.setState({ onPageError: true });
+      });
+  }
 
   isOrderSummaryHandler = () => {
     this.setState({ isOrderSummaryViewable: true });
@@ -109,31 +118,39 @@ export class BurgerBuilder extends Component {
       isIngredientDisabled[ingredient] = isIngredientDisabled[ingredient] <= 0;
     }
 
-    let orderSummary = this.state.isLoading ? (
-      <LoadingSpinner />
-    ) : (
-      <OrderSummaryModal
-        ingredients={this.state.ingredients}
-        orderSummaryContinueHandler={this.purchaseOrderHandler}
-        orderSummaryCancelHandler={this.cancelOrderHandler}
-        price={this.state.totalPrice}
-      />
-    );
+    let orderSummary = null;
+    let burgerView = this.state.onPageError ? <p>Error loading ingredients</p> : <LoadingSpinner />;
+
+    if (this.state.ingredients !== null) {
+      burgerView = (
+        <>
+          <Burger ingredients={this.state.ingredients} />
+          <BurgerControls
+            addIngredientHandlerFn={this.addIngredientHandler}
+            removeIngredientHandlerFn={this.removeIngredientHandler}
+            disabledIngredients={isIngredientDisabled}
+            price={this.state.totalPrice}
+            isPurchasable={this.state.isPurchasable}
+            isOrdering={this.isOrderSummaryHandler}
+          />
+        </>
+      );
+      orderSummary = (
+        <OrderSummaryModal
+          ingredients={this.state.ingredients}
+          orderSummaryContinueHandler={this.purchaseOrderHandler}
+          orderSummaryCancelHandler={this.cancelOrderHandler}
+          price={this.state.totalPrice}
+        />
+      );
+    }
 
     return (
       <div>
         <Modal isShowing={this.state.isOrderSummaryViewable} closeOrderSummaryHandler={this.cancelOrderHandler}>
           {orderSummary}
         </Modal>
-        <Burger ingredients={this.state.ingredients} />
-        <BurgerControls
-          addIngredientHandlerFn={this.addIngredientHandler}
-          removeIngredientHandlerFn={this.removeIngredientHandler}
-          disabledIngredients={isIngredientDisabled}
-          price={this.state.totalPrice}
-          isPurchasable={this.state.isPurchasable}
-          isOrdering={this.isOrderSummaryHandler}
-        />
+        {burgerView}
       </div>
     );
   }
