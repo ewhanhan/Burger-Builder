@@ -25,3 +25,8 @@
   outline: none;
   background-color: #cccccc;
 }
+
+.InputElementInvalid{
+  border: 1px solid red;
+  background-color: #fda49a;
+}

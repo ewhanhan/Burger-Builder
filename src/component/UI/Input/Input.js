@@ -3,25 +3,40 @@ import styles from './Input.module.css';
 
 const Input = (props) => {
   let inputElement = null;
-
+  console.log(props);
+  let InputElementClass = null;
+  if (props.validation.required) {
+    if (!props.validation.valid) {
+      InputElementClass = [
+        styles.InputElement,
+        styles.InputElementInvalid].join(' ');
+    } else {
+      InputElementClass = styles.InputElement;
+    }
+  } else {
+    InputElementClass = styles.InputElement;
+  }
   //Depending on the input type we specify, create the element and spread the props
   switch (props.elementType) {
     case  ('input'):
       inputElement = <input
-          className={styles.InputElement} {...props.elementConfig}
+          className={InputElementClass}
+          {...props.elementConfig}
           value={props.value}
           onChange={props.inputHandler}
       />;
       break;
     case ('textarea'):
       inputElement = <textarea
-          className={styles.InputElement}{...props.elementConfig}
+          className={styles.InputElement}
+          {...props.elementConfig}
           value={props.value}
           onChange={props.inputHandler}
       />;
       break;
     case('select'):
-      inputElement = <select className={styles.InputElement} value={props.value}
+      inputElement = <select className={styles.InputElement}
+          value={props.value}
           onChange={props.inputHandler}
       >{props.elementConfig.options.map(
           option => <option key={option.value}

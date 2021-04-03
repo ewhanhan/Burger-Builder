@@ -16,6 +16,10 @@ export class ContactData extends Component {
           placeholder: 'Your Name',
         },
         value: '',
+        validation: {
+          required: true,
+          valid: false,
+        },
       },
       street: {
         elementType: 'input',
@@ -24,6 +28,10 @@ export class ContactData extends Component {
           placeholder: 'street',
         },
         value: '',
+        validation: {
+          required: true,
+          valid: false,
+        },
       },
       zipCode: {
         elementType: 'input',
@@ -32,6 +40,10 @@ export class ContactData extends Component {
           placeholder: 'Zip Code',
         },
         value: '',
+        validation: {
+          required: true,
+          valid: false,
+        },
       },
       email: {
         elementType: 'input',
@@ -40,6 +52,10 @@ export class ContactData extends Component {
           placeholder: 'Country',
         },
         value: '',
+        validation: {
+          required: true,
+          valid: false,
+        },
       },
       deliveryMethod: {
         elementType: 'select',
@@ -50,6 +66,10 @@ export class ContactData extends Component {
           ],
         },
         value: 'fastest',
+        validation: {
+          required: false,
+          valid: true,
+        },
       },
     },
     isLoading: false,
@@ -73,9 +93,20 @@ export class ContactData extends Component {
     }).catch((err) => console.log(err));
   };
 
+  checkValidity(value, rules) {
+    let isValid = true;
+    if (rules.required) {
+      isValid = value.trim() !== '' && isValid;
+    }
+    return isValid;
+  }
+
   inputHandler = (event, inputIdentifier) => {
     const formData = JSON.parse(JSON.stringify(this.state.orderForm));
     formData[inputIdentifier].value = event.target.value;
+    formData[inputIdentifier].validation.valid = this.checkValidity(
+        formData[inputIdentifier].value,
+        formData[inputIdentifier].validation);
     this.setState({orderForm: formData});
   };
 
@@ -96,10 +127,11 @@ export class ContactData extends Component {
                 elementConfig={element.config.elementConfig}
                 value={element.config.value}
                 inputHandler={(event) => this.inputHandler(event, element.id)}
+                validation={element.config.validation}
             />;
           })}
           <Button buttonType="Success" isClicked={this.orderHandler}>
-            SUBMIT
+            SUBMIT!
           </Button>
         </form>
     );
