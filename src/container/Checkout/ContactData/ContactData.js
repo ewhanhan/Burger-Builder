@@ -7,11 +7,49 @@ import Input from '../../../component/UI/Input/Input.js';
 
 export class ContactData extends Component {
   state = {
-    name: '',
-    email: '',
-    address: {
-      street: '',
-      postalCode: '',
+    orderForm: {
+      name: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Your Name',
+        },
+        value: '',
+      },
+      street: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'street',
+        },
+        value: '',
+      },
+      zipCode: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Zip Code',
+        },
+        value: '',
+      },
+      email: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Country',
+        },
+        value: '',
+      },
+      deliveryMethod: {
+        elementType: 'select',
+        elementConfig: {
+          options: [
+            { value: 'fastest', displayValue: 'Fastest' },
+            { value: 'cheapest', displayValue: 'Cheapest' },
+          ],
+        },
+        value: '',
+      },
     },
     isLoading: false,
   };
@@ -36,12 +74,20 @@ export class ContactData extends Component {
   };
 
   render() {
+    const formElementArray = [];
+    //create an array of Input configurations
+    for (let key in this.state.orderForm) {
+      formElementArray.push({
+        id: key,
+        config: this.state.orderForm[key],
+      });
+    }
     let form = (
       <form className={styles.ContactInput}>
-        <Input inputtype='input' type="text" name="name" placeholder="Your name"/>
-        <Input inputtype='input' type="text" name="email" placeholder="Your email"/>
-        <Input inputtype='input' type="text" name="address" placeholder="Address"/>
-        <Input inputtype='input' type="text" name="postalcode" placeholder="Postal Code"/>
+        {formElementArray.map(element => {
+          return <Input key={element.id} elementType={element.config.elementType}
+                 elementConfig={element.config.elementConfig} value={element.config.value}/>;
+        })}
         <Button buttonType="Success" isClicked={this.orderHandler}>
           SUBMIT
         </Button>
