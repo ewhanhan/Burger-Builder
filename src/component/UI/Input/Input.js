@@ -7,24 +7,40 @@ const Input = (props) => {
   //Depending on the input type we specify, create the element and spread the props
   switch (props.elementType) {
     case  ('input'):
-      inputElement = <input className={styles.InputElement} {...props.elementConfig} {...props.value}/>;
+      inputElement = <input
+          className={styles.InputElement} {...props.elementConfig}
+          value={props.value}
+          onChange={props.inputHandler}
+      />;
       break;
     case ('textarea'):
-      inputElement = <textarea className={styles.InputElement}{...props.elementConfig} {...props.value}/>;
+      inputElement = <textarea
+          className={styles.InputElement}{...props.elementConfig}
+          value={props.value}
+          onChange={props.inputHandler}
+      />;
       break;
     case('select'):
-      inputElement = <select className={styles.InputElement}{...props.value}>{props.elementConfig.options.map(
-        option => <option key={option.value} value={option.value}>{option.displayValue}</option>)}</select>;
+      inputElement = <select className={styles.InputElement} value={props.value}
+          onChange={props.inputHandler}
+      >{props.elementConfig.options.map(
+          option => <option key={option.value}
+              value={option.value}
+          >{option.displayValue}</option>)}</select>;
       break;
     default:
-      inputElement = <input className={styles.InputElement} {...props.elementConfig} {...props.value}/>;
+      inputElement = <input
+          className={styles.InputElement} {...props.elementConfig}
+          value={props.value}
+          onChange={props.inputHandler}
+      />;
   }
 
   return (
-    <div className={styles.Input}>
-      <label className={styles.Label}>{props.label}</label>
-      {inputElement}
-    </div>
+      <div className={styles.Input}>
+        <label className={styles.Label}>{props.label}</label>
+        {inputElement}
+      </div>
   );
 };
 

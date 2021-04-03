@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Button from '../../../component/UI/Button/Button.js';
 import styles from './ContactData.module.css';
 import axiosInstance from '../../../axios-orders';
-import LoadingSpinner from '../../../component/UI/LoadingSpinner/LoadingSpinner.js';
+import LoadingSpinner
+  from '../../../component/UI/LoadingSpinner/LoadingSpinner.js';
 import Input from '../../../component/UI/Input/Input.js';
 
 export class ContactData extends Component {
@@ -44,11 +45,11 @@ export class ContactData extends Component {
         elementType: 'select',
         elementConfig: {
           options: [
-            { value: 'fastest', displayValue: 'Fastest' },
-            { value: 'cheapest', displayValue: 'Cheapest' },
+            {value: 'fastest', displayValue: 'Fastest'},
+            {value: 'cheapest', displayValue: 'Cheapest'},
           ],
         },
-        value: '',
+        value: 'fastest',
       },
     },
     isLoading: false,
@@ -56,51 +57,60 @@ export class ContactData extends Component {
 
   orderHandler = (event) => {
     event.preventDefault();
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
+    const formData = {};
+    for (let params in this.state.orderForm) {
+      formData[params] = this.state.orderForm[params].value;
+    }
     const order = {
       ingredients: this.props.order,
       price: this.props.price,
-      customer: {
-        payload: 'test',
-      },
+      orderData: formData,
     };
-    axiosInstance
-      .post('/orders.json', order)
-      .then((resp) => {
-        console.log('Status: ', resp.status);
-        this.setState({ isLoading: false });
-      })
-      .catch((err) => console.log(err));
+    axiosInstance.post('/orders.json', order).then((resp) => {
+      console.log('Status: ', resp.status);
+      this.setState({isLoading: false});
+    }).catch((err) => console.log(err));
+  };
+
+  inputHandler = (event, inputIdentifier) => {
+    const formData = JSON.parse(JSON.stringify(this.state.orderForm));
+    formData[inputIdentifier].value = event.target.value;
+    this.setState({orderForm: formData});
   };
 
   render() {
     const formElementArray = [];
     //create an array of Input configurations
-    for (let key in this.state.orderForm) {
+    for (let orderFormParameter in this.state.orderForm) {
       formElementArray.push({
-        id: key,
-        config: this.state.orderForm[key],
+        id: orderFormParameter,
+        config: this.state.orderForm[orderFormParameter],
       });
     }
     let form = (
-      <form className={styles.ContactInput}>
-        {formElementArray.map(element => {
-          return <Input key={element.id} elementType={element.config.elementType}
-                 elementConfig={element.config.elementConfig} value={element.config.value}/>;
-        })}
-        <Button buttonType="Success" isClicked={this.orderHandler}>
-          SUBMIT
-        </Button>
-      </form>
+        <form className={styles.ContactInput}>
+          {formElementArray.map(element => {
+            return <Input key={element.id}
+                elementType={element.config.elementType}
+                elementConfig={element.config.elementConfig}
+                value={element.config.value}
+                inputHandler={(event) => this.inputHandler(event, element.id)}
+            />;
+          })}
+          <Button buttonType="Success" isClicked={this.orderHandler}>
+            SUBMIT
+          </Button>
+        </form>
     );
     if (this.state.isLoading) {
-      form = <LoadingSpinner/>;
+      form = <LoadingSpinner />;
     }
     return (
-      <div className={styles.ContactDataContainer}>
-        <h4>Enter your Contact Data</h4>
-        {form}
-      </div>
+        <div className={styles.ContactDataContainer}>
+          <h4>Enter your Contact Data</h4>
+          {form}
+        </div>
     );
   }
 }
