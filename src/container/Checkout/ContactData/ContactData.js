@@ -3,6 +3,7 @@ import Button from '../../../component/UI/Button/Button.js';
 import styles from './ContactData.module.css';
 import axiosInstance from '../../../axios-orders';
 import LoadingSpinner from '../../../component/UI/LoadingSpinner/LoadingSpinner.js';
+import Input from '../../../component/UI/Input/Input.js';
 
 export class ContactData extends Component {
   state = {
@@ -37,17 +38,17 @@ export class ContactData extends Component {
   render() {
     let form = (
       <form className={styles.ContactInput}>
-        <input type="text" name="name" placeholder="Your name" />
-        <input type="text" name="email" placeholder="Your email" />
-        <input type="text" name="address" placeholder="Address" />
-        <input type="text" name="postalcode" placeholder="Postal Code" />
+        <Input inputtype='input' type="text" name="name" placeholder="Your name"/>
+        <Input inputtype='input' type="text" name="email" placeholder="Your email"/>
+        <Input inputtype='input' type="text" name="address" placeholder="Address"/>
+        <Input inputtype='input' type="text" name="postalcode" placeholder="Postal Code"/>
         <Button buttonType="Success" isClicked={this.orderHandler}>
           SUBMIT
         </Button>
       </form>
     );
     if (this.state.isLoading) {
-      form = <LoadingSpinner />;
+      form = <LoadingSpinner/>;
     }
     return (
       <div className={styles.ContactDataContainer}>
